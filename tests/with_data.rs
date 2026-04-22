@@ -1,6 +1,6 @@
-use offsetter::offset_export;
+use offsetter::offset;
 
-offset_export!(
+offset!(
     #[derive(Clone, Copy)]
     struct GamePlayer {
         0x0 id: u32,
@@ -12,7 +12,7 @@ offset_export!(
     }
 );
 
-offset_export!(
+offset!(
     #[derive(Clone, Copy)]
     struct Simple {
         0x0 a: u8,

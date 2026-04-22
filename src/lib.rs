@@ -9,9 +9,9 @@ pub use paste;
 /// # Examples
 ///
 /// ```
-/// use offsetter::offset_export;
+/// use offsetter::offset;
 ///
-/// offset_export!(
+/// offset!(
 ///     struct Player {
 ///         0x0 health: f32,
 ///         0x4 max_health: f32,
@@ -22,9 +22,9 @@ pub use paste;
 ///
 /// With attributes:
 /// ```
-/// use offsetter::offset_export;
+/// use offsetter::offset;
 ///
-/// offset_export!(
+/// offset!(
 ///     #[derive(Clone, Copy)]
 ///     struct Entity {
 ///         0x0  vtable: u64,
@@ -34,7 +34,7 @@ pub use paste;
 /// );
 /// ```
 #[macro_export]
-macro_rules! offset_export {
+macro_rules! offset {
     (@guard ($current_offset:expr,) -> {$(#[$attr:meta])* $vis:vis struct $name:ident $(($offset:expr, $amount:expr, $id:ident: $ty:ty))*}) => {
         $crate::paste::paste! {
             #[repr(C)]
@@ -61,10 +61,10 @@ macro_rules! offset_export {
     };
 
     (@guard ($current_offset:expr, $offset:literal $fvis:vis $id:ident: $ty:ty, $($next:tt)*) -> {$($output:tt)*}) => {
-        $crate::offset_export!(@guard ($offset + core::mem::size_of::<$ty>(), $($next)*) -> {$($output)* ($offset, $offset - ($current_offset), $id: $ty)});
+        $crate::offset!(@guard ($offset + core::mem::size_of::<$ty>(), $($next)*) -> {$($output)* ($offset, $offset - ($current_offset), $id: $ty)});
     };
 
     ($(#[$attr:meta])* $vis:vis struct $name:ident { $($input:tt)* }) => {
-        $crate::offset_export!(@guard (0, $($input)*) -> {$(#[$attr])* $vis struct $name});
+        $crate::offset!(@guard (0, $($input)*) -> {$(#[$attr])* $vis struct $name});
     };
 }

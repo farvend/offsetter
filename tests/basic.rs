@@ -1,6 +1,6 @@
-use offsetter::offset_export;
+use offsetter::offset;
 
-offset_export!(
+offset!(
     struct Simple {
         0x0 a: u32,
         0x8 b: u64,
@@ -8,14 +8,14 @@ offset_export!(
     }
 );
 
-offset_export!(
+offset!(
     struct StartNonZero {
         0x10 first: u32,
         0x20 second: u64,
     }
 );
 
-offset_export!(
+offset!(
     pub struct WithPub {
         0x0 pub x: f32,
         0x4 pub y: f32,
@@ -23,7 +23,7 @@ offset_export!(
     }
 );
 
-offset_export!(
+offset!(
     struct WithPointers {
         0x0 vtable: usize,
         0x8 ptr: *mut u8,
@@ -31,7 +31,7 @@ offset_export!(
     }
 );
 
-offset_export!(
+offset!(
     struct WithArray {
         0x0 id: u32,
         0x8 data: [u8; 16],
