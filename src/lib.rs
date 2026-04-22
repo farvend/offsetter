@@ -35,19 +35,18 @@ pub use paste;
 /// ```
 #[macro_export]
 macro_rules! offset {
-    (@guard ($current_offset:expr,) -> {$(#[$attr:meta])* $vis:vis struct $name:ident $(($offset:expr, $amount:expr, $id:ident: $ty:ty))*}) => {
+    (@guard ($current_offset:expr,) -> {$(#[$attr:meta])* $vis:vis struct $name:ident $(($offset:expr, $amount:expr, $fvis:vis $id:ident: $ty:ty))*}) => {
         $crate::paste::paste! {
             #[repr(C)]
             $(#[$attr])*
             $vis struct $name {
                 $(
                     [<_pad $id>]: [u8; $amount],
-                    pub $id: $ty
+                    $fvis $id: $ty
                 ),*
             }
         }
 
-        // compile-time alignment checks
         $(
             const _: () = assert!(
                 $offset % core::mem::align_of::<$ty>() == 0,
@@ -61,7 +60,7 @@ macro_rules! offset {
     };
 
     (@guard ($current_offset:expr, $offset:literal $fvis:vis $id:ident: $ty:ty, $($next:tt)*) -> {$($output:tt)*}) => {
-        $crate::offset!(@guard ($offset + core::mem::size_of::<$ty>(), $($next)*) -> {$($output)* ($offset, $offset - ($current_offset), $id: $ty)});
+        $crate::offset!(@guard ($offset + core::mem::size_of::<$ty>(), $($next)*) -> {$($output)* ($offset, $offset - ($current_offset), $fvis $id: $ty)});
     };
 
     ($(#[$attr:meta])* $vis:vis struct $name:ident { $($input:tt)* }) => {
