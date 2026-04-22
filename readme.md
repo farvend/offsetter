@@ -4,6 +4,10 @@ A lightweight Rust macro for defining structs with explicit field offsets and au
 
 Useful for game hacking, reverse engineering, process memory manipulation, and FFI work where struct layouts are known only partially.
 
+## Disclaimer
+
+This is not my original idea and I didn't come up with the name. All credit goes to the author of [this post](https://www.unknowncheats.me/forum/rust-language-/596798-rust-automatic-offset-padding.html), who for some reason deleted the crate from crates.io.
+
 ## Usage
 
 ```rust
