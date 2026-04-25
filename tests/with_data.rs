@@ -8,7 +8,7 @@ offset!(
         0xC max_health: f32,
         0x10 position: [f32; 3],
         0x20 team_id: u8,
-        0x24 flags: u32,
+        0x24 flags: u32
     }
 );
 
@@ -17,7 +17,7 @@ offset!(
     struct Simple {
         0x0 a: u8,
         0x4 b: u32,
-        0x8 c: u16,
+        0x8 c: u16
     }
 );
 

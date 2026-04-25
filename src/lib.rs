@@ -63,6 +63,10 @@ macro_rules! offset {
         $crate::offset!(@guard ($offset + core::mem::size_of::<$ty>(), $($next)*) -> {$($output)* ($offset, $offset - ($current_offset), $fvis $id: $ty)});
     };
 
+    (@guard ($current_offset:expr, $offset:literal $fvis:vis $id:ident: $ty:ty) -> {$($output:tt)*}) => {
+        $crate::offset!(@guard ($offset + core::mem::size_of::<$ty>(),) -> {$($output)* ($offset, $offset - ($current_offset), $fvis $id: $ty)});
+    };
+
     ($(#[$attr:meta])* $vis:vis struct $name:ident { $($input:tt)* }) => {
         $crate::offset!(@guard (0, $($input)*) -> {$(#[$attr])* $vis struct $name});
     };

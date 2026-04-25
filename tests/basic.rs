@@ -1,8 +1,8 @@
 use offsetter::offset;
 
 offset!(
-    struct Simple {
-        0x0 a: u32,
+    pub struct Simple {
+        0x0 pub a: u32,
         0x8 b: u64,
         0x20 c: u8,
     }
